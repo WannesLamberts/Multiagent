@@ -287,10 +287,7 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         # pacman zijn beurt
         if (turncounter % state.getNumAgents() == 0):
             if (turncounter == 0):
-                test = self.maxValue(state, turncounter)
-                if test[1] == None:
-                    print("l")
-                return test
+                return self.maxValue(state, turncounter)
             return self.maxValue(state, turncounter)[0]
         # ghost zijn beurt
         else:
