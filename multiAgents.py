@@ -91,11 +91,12 @@ class ReflexAgent(Agent):
             closestfood=0
         if (len(ghosteat) == 0):
             closestghosteat = 0
-        utilscore=utilscore-(len(foodlocation)*10000000)-closestfood-closestghosteat*2
+        dangerouslocation=0
         for position in ghostlocations:
             dist=manhattanDistance(position,newPos)
             if dist <=1:
-                utilscore=float('-inf')
+                dangerouslocation=1
+        utilscore=-(len(foodlocation)*1000)-closestfood-(dangerouslocation*10000000000000)
         return utilscore
 
 def scoreEvaluationFunction(currentGameState):
@@ -286,7 +287,10 @@ class ExpectimaxAgent(MultiAgentSearchAgent):
         # pacman zijn beurt
         if (turncounter % state.getNumAgents() == 0):
             if (turncounter == 0):
-                return self.maxValue(state, turncounter)
+                test = self.maxValue(state, turncounter)
+                if test[1] == None:
+                    print("l")
+                return test
             return self.maxValue(state, turncounter)[0]
         # ghost zijn beurt
         else:
@@ -330,11 +334,13 @@ def betterEvaluationFunction(currentGameState):
         closestfood = 0
     if (len(ghosteat) == 0):
         closestghosteat = 0
-    utilscore = utilscore - (len(foodlocation) * 10000000) - closestfood
+    dangerouslocation=0
     for position in ghostlocations:
         dist = manhattanDistance(position, pos)
         if dist <= 1:
-            utilscore = float('-inf')
+            dangerouslocation=1
+    utilscore =- (len(foodlocation) * 1000) - closestfood -(dangerouslocation*10000000000000)
+
 
     return utilscore
 
